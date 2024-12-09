@@ -37,6 +37,19 @@ public class CustomerController {
         return customer;
     }
 
+    @PutMapping("/clients")
+    public Customer updateCustomer(@RequestBody Customer customer){
+        for (Customer c: customersList){
+            if (c.getID()==customer.getID()){
+                c.setName(customer.getName());
+                c.setUserName(customer.getUserName());
+                c.setPassword(customer.getPassword());
+            return c;
+            }
+        }
+        return null;
+    }
+
 
 
 
