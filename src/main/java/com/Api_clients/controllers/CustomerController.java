@@ -62,5 +62,25 @@ public class CustomerController {
         return null;
     }
 
+    @PatchMapping("/clients")
+    public Customer partialUpdateCustomer(@RequestBody Customer customer) {
+        for (Customer c : customersList) {
+            if (c.getID() == customer.getID()) {
+                // Validate that fields are not empty
+                if (customer.getName() != null) {
+                    c.setName(customer.getName());
+                }
+                if (customer.getUserName() != null) {
+                    c.setUserName(customer.getUserName());
+                }
+                if (customer.getPassword() != null) {
+                    c.setPassword(customer.getPassword());
+                }
+                return c;
+            }
+        }
+        return null;
+    }
+
 
 }
