@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clients")
 public class CustomerController {
 
     private List<Customer> customersList = new ArrayList<>(Arrays.asList(
@@ -17,12 +18,12 @@ public class CustomerController {
             new Customer(168, "Hugo Ortiz", "hugoOrtiz", "pass168")
     ));
 
-    @GetMapping("/clients")
+    @GetMapping
     public List<Customer> getCustomers() {
         return customersList;
     }
 
-    @GetMapping("/clients/{userName}")
+    @GetMapping("/{userName}")
     public Customer getCustomer(@PathVariable String userName) {
         for (Customer customer : customersList) {
             if ((customer.getUserName()).equalsIgnoreCase(userName)) {
@@ -32,13 +33,13 @@ public class CustomerController {
         return null;
     }
 
-    @PostMapping("/clients")
+    @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
         customersList.add(customer);
         return customer;
     }
 
-    @PutMapping("/clients")
+    @PutMapping
     public Customer updateCustomer(@RequestBody Customer customer) {
         for (Customer c : customersList) {
             if (c.getID() == customer.getID()) {
@@ -51,7 +52,7 @@ public class CustomerController {
         return null;
     }
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("/{id}")
     public Customer deleteCustomer(@PathVariable int id) {
         for (Customer c : customersList) {
             if (c.getID() == id) {
@@ -62,7 +63,7 @@ public class CustomerController {
         return null;
     }
 
-    @PatchMapping("/clients")
+    @PatchMapping
     public Customer partialUpdateCustomer(@RequestBody Customer customer) {
         for (Customer c : customersList) {
             if (c.getID() == customer.getID()) {
