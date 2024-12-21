@@ -1,6 +1,8 @@
 package com.Api_clients.controllers;
 
 import com.Api_clients.domain.Customer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,60 +13,62 @@ import java.util.List;
 @RequestMapping("/clients")
 public class CustomerController {
 
-    private List<Customer> customersList = new ArrayList<>(Arrays.asList(
-            new Customer(123, "Gerardo Morán", "gerardoM", "pass123"),
-            new Customer(124, "Ximena Veléz", "ximeVelez", "pass124"),
-            new Customer(157, "Juan Peréz", "juanP", "pass157"),
-            new Customer(168, "Hugo Ortiz", "hugoOrtiz", "pass168")
-    ));
+    private List<Customer> customersList = new ArrayList<>(Arrays.asList(new Customer(123, "Gerardo Morán", "gerardoM", "pass123"), new Customer(124, "Ximena Veléz", "ximeVelez", "pass124"), new Customer(157, "Juan Peréz", "juanP", "pass157"), new Customer(168, "Hugo Ortiz", "hugoOrtiz", "pass168")));
 
+    //@RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public List<Customer> getCustomers() {
-        return customersList;
+    public ResponseEntity<List<Customer>> getCustomers() {
+        return ResponseEntity.ok(customersList);
     }
 
+    //@RequestMapping(value = "/{username}", method = RequestMethod.GET)
     @GetMapping("/{userName}")
-    public Customer getCustomer(@PathVariable String userName) {
+    public ResponseEntity<?> getCustomer(@PathVariable String userName) {
         for (Customer customer : customersList) {
             if ((customer.getUserName()).equalsIgnoreCase(userName)) {
-                return customer;
+                return ResponseEntity.ok(customer);
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado con username " + userName);
     }
 
+    //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
         customersList.add(customer);
-        return customer;
+        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente creado exitosamente: " + customer.getUserName());
     }
 
+    //@RequestMapping(method = RequestMethod.PUT)
     @PutMapping
-    public Customer updateCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer) {
         for (Customer c : customersList) {
             if (c.getID() == customer.getID()) {
                 c.setName(customer.getName());
                 c.setUserName(customer.getUserName());
                 c.setPassword(customer.getPassword());
-                return c;
+                return ResponseEntity.ok("Cliente modificado exitosamente: " + customer.getID());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado " + customer.getID());
     }
 
+
+    //@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @DeleteMapping("/{id}")
-    public Customer deleteCustomer(@PathVariable int id) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable int id) {
         for (Customer c : customersList) {
             if (c.getID() == id) {
                 customersList.remove(c);
-                return c;
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cliente eliminado satisfactoriamente: " + id);
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado con el ID: "+id);
     }
 
+    //@RequestMapping(method = RequestMethod.PATCH)
     @PatchMapping
-    public Customer partialUpdateCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<?> partialUpdateCustomer(@RequestBody Customer customer) {
         for (Customer c : customersList) {
             if (c.getID() == customer.getID()) {
                 // Validate that fields are not empty
@@ -77,10 +81,10 @@ public class CustomerController {
                 if (customer.getPassword() != null) {
                     c.setPassword(customer.getPassword());
                 }
-                return c;
+                return ResponseEntity.ok("Cliente modificado satisfactoriamente: "+customer.getID());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado con ID: "+customer.getID());
     }
 
 
