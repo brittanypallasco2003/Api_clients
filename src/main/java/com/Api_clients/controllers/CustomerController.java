@@ -47,10 +47,10 @@ public class CustomerController {
                 c.setName(customer.getName());
                 c.setUserName(customer.getUserName());
                 c.setPassword(customer.getPassword());
-                return ResponseEntity.ok("Cliente modificado exitosamente: " + customer.getID());
+                return ResponseEntity.noContent().build();
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado " + customer.getID());
+        return ResponseEntity.notFound().build();
     }
 
 
@@ -60,7 +60,7 @@ public class CustomerController {
         for (Customer c : customersList) {
             if (c.getID() == id) {
                 customersList.remove(c);
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cliente eliminado satisfactoriamente: " + id);
+                return ResponseEntity.noContent().build();
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado con el ID: "+id);
