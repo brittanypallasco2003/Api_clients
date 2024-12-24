@@ -43,7 +43,8 @@ public class CustomerController {
                 .path("/{userName}")
                 .buildAndExpand(customer.getUserName())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        //return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(customer);
     }
 
     //@RequestMapping(method = RequestMethod.PUT)
