@@ -7,11 +7,11 @@ public class Product {
     private Double price;
     private Integer stock;
 
-    public Product(Integer stock, Double price, String name, Integer ID) {
-        this.stock = stock;
-        this.price = price;
-        this.name = name;
+    public Product(Integer ID, String name, Double price,Integer stock ) {
         this.ID = ID;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
     }
 
     public Integer getID() {
