@@ -3,6 +3,7 @@ package com.Api_clients.controllers;
 import com.Api_clients.service.ProductService;
 import com.Api_clients.service.ProductsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,9 @@ public class ProductController {
 
     //Instancia de clase
     //ProductService productService= new ProductsServiceImpl();
+    //Inyección de Dependencia
     @Autowired
+    @Qualifier("jsonResourceService")
     private ProductService productService;
 
     @GetMapping
