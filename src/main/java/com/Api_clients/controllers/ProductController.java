@@ -17,7 +17,7 @@ public class ProductController {
     //ProductService productService= new ProductsServiceImpl();
     //Inyección de Dependencia
     @Autowired
-    @Qualifier("jsonResourceService")
+    //@Qualifier("jsonResourceService")
     private ProductService productService;
 
     @GetMapping
